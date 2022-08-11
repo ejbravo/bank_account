@@ -25,11 +25,10 @@ describe('Movement service test suite', () => {
   describe('Income tests', () => {
     test('Retrieves the created movement', async () => {
       const mockMovementDto: MovementDto = {
-        amount: '500',
+        amount: 500,
       };
 
-      const { amount: amountString } = mockMovementDto;
-      const amount = parseInt(amountString);
+      const { amount } = mockMovementDto;
       //   const mockMovement: Movement = {
       //     id: '1234',
       //     amount,
@@ -49,11 +48,10 @@ describe('Movement service test suite', () => {
   describe('Withdraw tests', () => {
     test('Retrieves the created movement', async () => {
       const mockMovementDto: MovementDto = {
-        amount: '500',
+        amount: 500,
       };
 
-      const { amount: amountString } = mockMovementDto;
-      const amount = parseInt(amountString);
+      const { amount } = mockMovementDto;
       //   const mockMovement: Movement = {
       //     id: '1234',
       //     amount,
