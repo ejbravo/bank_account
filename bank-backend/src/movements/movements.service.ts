@@ -10,8 +10,7 @@ export class MovementsService {
   }
 
   public income(movementDto: MovementDto): Promise<Movement> {
-    const { amount: amountString } = movementDto;
-    const amount = parseInt(amountString);
+    const { amount } = movementDto;
 
     const movement: Movement = {
       id: uuid(),
@@ -27,8 +26,7 @@ export class MovementsService {
   }
 
   public withdraw(movementDto: MovementDto): Promise<Movement> {
-    const { amount: amountString } = movementDto;
-    const amount = parseInt(amountString);
+    const { amount } = movementDto;
 
     const movement: Movement = {
       id: uuid(),
