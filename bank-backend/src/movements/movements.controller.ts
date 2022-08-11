@@ -16,4 +16,9 @@ export class MovementsController {
   income(@Body() movementDto: MovementDto): Promise<Movement> {
     return this.movementService.income(movementDto);
   }
+
+  @Post('withdraw')
+  withdraw(@Body() MovementDto: MovementDto): Promise<Movement> {
+    return this.movementService.withdraw(MovementDto);
+  }
 }
