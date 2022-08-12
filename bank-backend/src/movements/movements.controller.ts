@@ -8,17 +8,17 @@ export class MovementsController {
   constructor(private movementService: MovementsService) {}
 
   @Get('list')
-  list(): Promise<Movement[]> {
-    return this.movementService.getMovements();
+  public async list(): Promise<Movement[]> {
+    return await this.movementService.getMovements();
   }
 
-  @Post('income')
-  income(@Body() movementDto: MovementDto): Promise<Movement> {
-    return this.movementService.income(movementDto);
-  }
+  // @Post('income')
+  // income(@Body() movementDto: MovementDto): Promise<Movement> {
+  //   return this.movementService.income(movementDto);
+  // }
 
-  @Post('withdraw')
-  withdraw(@Body() MovementDto: MovementDto): Promise<Movement> {
-    return this.movementService.withdraw(MovementDto);
-  }
+  // @Post('withdraw')
+  // withdraw(@Body() MovementDto: MovementDto): Promise<Movement> {
+  //   return this.movementService.withdraw(MovementDto);
+  // }
 }

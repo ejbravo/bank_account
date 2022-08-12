@@ -1,8 +1,9 @@
 import { Test } from '@nestjs/testing';
 import { MovementDto } from '../dto/movement.dto';
-import { Movement, MovementType } from '../movement.entity';
+import { Movement } from '../movement.entity';
 import { MovementsController } from '../movements.controller';
 import { MovementsService } from '../movements.service';
+import { MovementType } from '../types';
 
 describe('Movement service test suite', () => {
   let movementsController: MovementsController;
