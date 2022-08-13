@@ -27,7 +27,7 @@ describe('Movement service test suite', () => {
           id: '1',
           amount: 100,
           balance: 100,
-          date: Date.now(),
+          date: Date.now().toString(),
           type: MovementType.INCOME,
         },
       ];
@@ -51,7 +51,7 @@ describe('Movement service test suite', () => {
         id: '1',
         amount,
         balance: 100,
-        date: Date.now(),
+        date: Date.now().toString(),
         type: MovementType.INCOME,
       };
 
@@ -78,7 +78,7 @@ describe('Movement service test suite', () => {
         id: '1',
         amount,
         balance: 100,
-        date: Date.now(),
+        date: Date.now().toString(),
         type: MovementType.WITHDRAW,
       };
 

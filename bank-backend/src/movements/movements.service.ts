@@ -3,17 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MovementDto } from './dto/movement.dto';
 import { Movement } from './movement.entity';
-// import { MovementRepository } from './movement.repository';
+import { MovementType } from './types';
 
 export class MovementsService {
   constructor(
     @InjectRepository(Movement)
-    private movementRepository: Repository<Movement>,
+    private repository: Repository<Movement>,
   ) {}
 
   public async getMovements(): Promise<Movement[]> {
-    const result = await this.movementRepository.find();
-    console.log(result);
+    console.log(this.repository);
+    const result = await this.repository.find();
 
     if (!result) {
       throw new NotFoundException('None movement');
@@ -22,32 +22,33 @@ export class MovementsService {
     return result;
   }
 
-  // private movements: Movement[] = [];
-  // public getMovements(): Promise<Movement[]> {
-  //   return Promise.resolve(this.movements);
-  // }
-  // public income(movementDto: MovementDto): Promise<Movement> {
-  //   const { amount } = movementDto;
-  //   const movement: Movement = {
-  //     id: uuid(),
-  //     amount,
-  //     date: Date.now(),
-  //     type: MovementType.INCOME,
-  //     balance: 0 + amount,
-  //   };
-  //   this.movements = [...this.movements, movement];
-  //   return Promise.resolve(movement);
-  // }
-  // public withdraw(movementDto: MovementDto): Promise<Movement> {
-  //   const { amount } = movementDto;
-  //   const movement: Movement = {
-  //     id: uuid(),
-  //     amount,
-  //     date: Date.now(),
-  //     type: MovementType.WITHDRAW,
-  //     balance: 0 - amount,
-  //   };
-  //   this.movements = [...this.movements, movement];
-  //   return Promise.resolve(movement);
-  // }
+  public async income(movementDto: MovementDto): Promise<Movement> {
+    const { amount } = movementDto;
+
+    const movement = this.repository.create({
+      amount,
+      balance: 0 + amount,
+      date: Date.now().toString(),
+      type: MovementType.INCOME,
+    });
+
+    await this.repository.save(movement);
+
+    return movement;
+  }
+
+  public async withdraw(movementDto: MovementDto): Promise<Movement> {
+    const { amount } = movementDto;
+
+    const movement = this.repository.create({
+      amount,
+      balance: 0 - amount,
+      date: Date.now().toString(),
+      type: MovementType.WITHDRAW,
+    });
+
+    await this.repository.save(movement);
+
+    return movement;
+  }
 }

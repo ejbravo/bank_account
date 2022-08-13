@@ -7,7 +7,7 @@ export class Movement {
   id: string;
 
   @Column()
-  date: number;
+  date: string;
 
   @Column()
   type: MovementType;

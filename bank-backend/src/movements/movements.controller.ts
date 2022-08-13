@@ -12,13 +12,13 @@ export class MovementsController {
     return await this.movementService.getMovements();
   }
 
-  // @Post('income')
-  // income(@Body() movementDto: MovementDto): Promise<Movement> {
-  //   return this.movementService.income(movementDto);
-  // }
+  @Post('income')
+  income(@Body() movementDto: MovementDto): Promise<Movement> {
+    return this.movementService.income(movementDto);
+  }
 
-  // @Post('withdraw')
-  // withdraw(@Body() MovementDto: MovementDto): Promise<Movement> {
-  //   return this.movementService.withdraw(MovementDto);
-  // }
+  @Post('withdraw')
+  withdraw(@Body() MovementDto: MovementDto): Promise<Movement> {
+    return this.movementService.withdraw(MovementDto);
+  }
 }

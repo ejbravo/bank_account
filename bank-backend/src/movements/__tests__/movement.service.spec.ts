@@ -1,5 +1,7 @@
 import { Test } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { MovementDto } from '../dto/movement.dto';
+import { Movement } from '../movement.entity';
 import { MovementsService } from '../movements.service';
 import { MovementType } from '../types';
 
