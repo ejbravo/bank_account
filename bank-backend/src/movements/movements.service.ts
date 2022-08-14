@@ -1,5 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../auth/user.entity';
 import { Repository } from 'typeorm';
 import { MovementDto } from './dto/movement.dto';
 import { Movement } from './movement.entity';
@@ -11,8 +12,8 @@ export class MovementsService {
     private repository: Repository<Movement>,
   ) {}
 
-  public async getMovements(): Promise<Movement[]> {
-    const result = await this.repository.find();
+  public async getMovements(user: User): Promise<Movement[]> {
+    const result = await this.repository.findBy({ user });
 
     if (!result) {
       throw new NotFoundException('None movement');
@@ -21,7 +22,7 @@ export class MovementsService {
     return result;
   }
 
-  public async income(movementDto: MovementDto): Promise<Movement> {
+  public async income(movementDto: MovementDto, user: User): Promise<Movement> {
     const { amount } = movementDto;
 
     const movement = this.repository.create({
@@ -29,6 +30,7 @@ export class MovementsService {
       balance: 0 + amount,
       date: Date.now().toString(),
       type: MovementType.INCOME,
+      user,
     });
 
     await this.repository.save(movement);
@@ -36,7 +38,10 @@ export class MovementsService {
     return movement;
   }
 
-  public async withdraw(movementDto: MovementDto): Promise<Movement> {
+  public async withdraw(
+    movementDto: MovementDto,
+    user: User,
+  ): Promise<Movement> {
     const { amount } = movementDto;
 
     const movement = this.repository.create({
@@ -44,6 +49,7 @@ export class MovementsService {
       balance: 0 - amount,
       date: Date.now().toString(),
       type: MovementType.WITHDRAW,
+      user,
     });
 
     await this.repository.save(movement);
