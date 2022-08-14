@@ -12,7 +12,6 @@ export class MovementsService {
   ) {}
 
   public async getMovements(): Promise<Movement[]> {
-    console.log(this.repository);
     const result = await this.repository.find();
 
     if (!result) {
