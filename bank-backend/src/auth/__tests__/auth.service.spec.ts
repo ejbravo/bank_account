@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { AuthService } from '../auth.service';
 import { AuthDto } from '../dto/auth.dto';
 import { User } from '../user.entity';
+import * as bcrypt from 'bcrypt';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -50,5 +51,31 @@ describe('AuthService', () => {
 
     expect(repository.create).toHaveBeenCalled();
     expect(repository.save).toBeCalledTimes(1);
+  });
+
+  it('Should get the user if credentials are ok', async () => {
+    const mockCardId = '1234567812345678';
+    const mockPin = '1234';
+
+    const mockAuthDto: AuthDto = {
+      cardId: mockCardId,
+      pin: mockPin,
+    };
+    const mockUser: User = {
+      id: '1234',
+      cardId: mockCardId,
+      pin: mockPin,
+      balance: 0,
+    };
+
+    jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockUser);
+
+    const bcryptCompare = jest.fn().mockResolvedValue(true);
+    (bcrypt.compare as jest.Mock) = bcryptCompare;
+
+    const result = await authService.getUser(mockAuthDto);
+
+    expect(repository.findOneBy).toHaveBeenCalled();
+    expect(result).toBe('success');
   });
 });
