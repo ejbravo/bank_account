@@ -25,7 +25,7 @@ const CustomButton = ({ label, type, color, onClick }: Props) => {
       color={color ?? 'primary'}
       fullWidth
       variant='contained'
-      sx={{ mt: 3, mb: 2 }}
+      sx={{ mt: 1, mb: 3 }}
       onClick={(_event) => onClick && onClick()}
     >
       {label}

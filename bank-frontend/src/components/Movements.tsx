@@ -14,6 +14,7 @@ import { Movement } from '../types';
 import useAuth from '../hooks/useAuth';
 import Operations from './Operations';
 import { getFormattedDate } from '../utils';
+import { CustomTitle } from './common';
 
 const Movements = () => {
   const { token } = useAuth();
@@ -44,7 +45,8 @@ const Movements = () => {
 
   return (
     <PageLayout width='md'>
-      <h1>Movements</h1>
+      <CustomTitle text={'Movements'} variant='h4' />
+      <Operations onChange={(newMovement) => onUpdate(newMovement)} />
       <TableContainer component={Paper}>
         <Table sx={{ minWith: 650 }} aria-label='movements'>
           <TableHead>
@@ -61,15 +63,23 @@ const Movements = () => {
                 return (
                   <TableRow key={id}>
                     <TableCell>{getFormattedDate(date)}</TableCell>
-                    <TableCell align='right'>{amount}</TableCell>
-                    <TableCell align='right'>{balance}</TableCell>
+                    <TableCell align='right'>{`${amount}.00 €`}</TableCell>
+                    <TableCell
+                      align='right'
+                      sx={{
+                        fontSize: 'h6.fontSize',
+                        fontWeight: 'bold',
+                        color: `${balance < 0 ? 'error.main' : 'info.main'}`,
+                      }}
+                    >
+                      {`${balance}.00 €`}
+                    </TableCell>
                   </TableRow>
                 );
               })}
           </TableBody>
         </Table>
       </TableContainer>
-      <Operations onChange={(newMovement) => onUpdate(newMovement)} />
     </PageLayout>
   );
 };

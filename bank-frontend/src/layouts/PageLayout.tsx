@@ -9,7 +9,7 @@ interface Props {
 
 const PageLayout = ({ width, children }: Props) => {
   return (
-    <Container component='main' maxWidth={width}>
+    <Container component='main' maxWidth={width} sx={{ mt: 4 }}>
       {children}
     </Container>
   );
