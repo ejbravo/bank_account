@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   const logout = () => {
     setToken(defaultValue);
-    navigate('/signup');
+    navigate('/signin');
   };
 
   const value = useMemo(() => ({ token, singIn, logout }), [token]);

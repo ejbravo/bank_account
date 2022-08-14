@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from 'react';
+import axios, { AxiosRequestConfig } from 'axios';
+
 import {
   Paper,
   Table,
@@ -7,17 +10,17 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import axios, { AxiosRequestConfig } from 'axios';
-import React, { useEffect, useState } from 'react';
+
 import { PageLayout } from '../layouts';
 import { Movement, MovementType } from '../types';
 import useAuth from '../hooks/useAuth';
 import Operations from './Operations';
 import { getFormattedDate } from '../utils';
 import { CustomTitle } from './common';
+import CustomButton from './common/CustomButton';
 
 const Movements = () => {
-  const { token } = useAuth();
+  const { token, logout } = useAuth();
   const [movements, setMovements] = useState<Movement[]>([]);
   useEffect(() => {
     const getMovements = async () => {
@@ -86,6 +89,7 @@ const Movements = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <CustomButton label='LogOut' color='warning' onClick={() => logout()} />
     </PageLayout>
   );
 };
