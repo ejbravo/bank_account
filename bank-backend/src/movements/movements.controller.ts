@@ -5,7 +5,7 @@ import { Movement } from './movement.entity';
 import { MovementsService } from './movements.service';
 
 @Controller('movements')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class MovementsController {
   constructor(private movementService: MovementsService) {}
 

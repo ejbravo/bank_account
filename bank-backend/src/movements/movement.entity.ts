@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../auth/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { MovementType } from './types';
 
 @Entity()
@@ -17,4 +18,7 @@ export class Movement {
 
   @Column()
   balance: number;
+
+  @ManyToOne((_type) => User, (user) => user.movements, { eager: false })
+  user: User;
 }

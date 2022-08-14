@@ -1,10 +1,19 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../../auth/user.entity';
 import { Repository } from 'typeorm';
 import { MovementDto } from '../dto/movement.dto';
 import { Movement } from '../movement.entity';
 import { MovementsService } from '../movements.service';
 import { MovementType } from '../types';
+
+const mockUser: User = {
+  id: '1234',
+  cardId: '1234567812345678',
+  pin: '1234',
+  balance: 0,
+  movements: [],
+};
 
 const getMockMovement = (amount: number, type: MovementType): Movement => ({
   id: '1234',
@@ -12,6 +21,7 @@ const getMockMovement = (amount: number, type: MovementType): Movement => ({
   balance: 0,
   date: Date.now().toString(),
   type,
+  user: mockUser,
 });
 
 describe('Movement service test suite', () => {

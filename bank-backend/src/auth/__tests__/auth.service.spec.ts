@@ -8,6 +8,17 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
 describe('AuthService', () => {
+  const mockCardId = '1234567812345678';
+  const mockPin = '1234';
+
+  const mockUser: User = {
+    id: '1234',
+    cardId: mockCardId,
+    pin: mockPin,
+    balance: 0,
+    movements: [],
+  };
+
   let authService: AuthService;
   let jwtService: JwtService;
   let repository: Repository<User>;
@@ -39,18 +50,9 @@ describe('AuthService', () => {
   });
 
   it('Should create an user if everything is ok', async () => {
-    const mockCardId = '1234567812345678';
-    const mockPin = '1234';
-
     const mockAuthDto: AuthDto = {
       cardId: mockCardId,
       pin: mockPin,
-    };
-    const mockUser: User = {
-      id: '1234',
-      cardId: mockCardId,
-      pin: mockPin,
-      balance: 0,
     };
 
     jest.spyOn(repository, 'create').mockReturnValue(mockUser);
@@ -63,18 +65,9 @@ describe('AuthService', () => {
   });
 
   it('Should get the user if credentials are ok', async () => {
-    const mockCardId = '1234567812345678';
-    const mockPin = '1234';
-
     const mockAuthDto: AuthDto = {
       cardId: mockCardId,
       pin: mockPin,
-    };
-    const mockUser: User = {
-      id: '1234',
-      cardId: mockCardId,
-      pin: mockPin,
-      balance: 0,
     };
 
     jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockUser);

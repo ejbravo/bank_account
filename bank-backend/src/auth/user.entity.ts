@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Movement } from '../movements/movement.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -13,4 +14,7 @@ export class User {
 
   @Column()
   balance: number;
+
+  @OneToMany((_type) => Movement, (movement) => movement.user, { eager: true })
+  movements: Movement[];
 }
