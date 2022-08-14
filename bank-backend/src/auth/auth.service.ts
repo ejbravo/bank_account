@@ -14,7 +14,7 @@ export class AuthService {
   public async createUser(authDto: AuthDto): Promise<void> {
     const { cardId, pin } = authDto;
 
-    const user = this.repository.create({ cardId, pin });
+    const user = this.repository.create({ cardId, pin, balance: 0 });
     await this.repository.save(user);
   }
 }
