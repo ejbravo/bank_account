@@ -19,3 +19,7 @@ export interface Movement {
   amount: number;
   balance: number;
 }
+
+export interface Operation {
+  amount: number;
+}
