@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards, Logger } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { trimCardId } from 'src/utils';
+import { trimCardId } from '../utils';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/user.entity';
 import { MovementDto } from './dto/movement.dto';
