@@ -11,7 +11,7 @@ const mockUser: User = {
   id: '1234',
   cardId: '1234567812345678',
   pin: '1234',
-  balance: 0,
+  account: 0,
   movements: [],
 };
 
@@ -47,8 +47,8 @@ describe('Movement service test suite', () => {
 
   describe('Get all movements', () => {
     test('Should retrieve the complete list of movements', async () => {
-      jest.spyOn(repository, 'find').mockResolvedValue([]);
-      const result = await movementsService.getMovements();
+      jest.spyOn(repository, 'findBy').mockResolvedValue([]);
+      const result = await movementsService.getMovements(mockUser);
       expect(result).toBeTruthy();
     });
   });
@@ -62,7 +62,7 @@ describe('Movement service test suite', () => {
       jest.spyOn(repository, 'create').mockReturnValue(mockMovement);
       jest.spyOn(repository, 'save').mockResolvedValue(mockMovement);
 
-      const result = await movementsService.income(mockMovementDto);
+      const result = await movementsService.income(mockMovementDto, mockUser);
       expect(result).toHaveProperty('amount');
       expect(result).toHaveProperty('type');
       expect(result.amount).toBe(amount);
@@ -81,7 +81,7 @@ describe('Movement service test suite', () => {
       jest.spyOn(repository, 'create').mockReturnValue(mockMovement);
       jest.spyOn(repository, 'save').mockResolvedValue(mockMovement);
 
-      const result = await movementsService.withdraw(mockMovementDto);
+      const result = await movementsService.withdraw(mockMovementDto, mockUser);
       expect(result).toHaveProperty('amount');
       expect(result).toHaveProperty('type');
       expect(result.amount).toBe(amount);

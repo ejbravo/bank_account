@@ -30,7 +30,7 @@ export class AuthService {
     const user = this.repository.create({
       cardId,
       pin: hashedPin,
-      balance: 0,
+      account: 0,
     });
 
     try {

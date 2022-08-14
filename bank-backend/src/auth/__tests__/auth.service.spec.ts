@@ -15,7 +15,7 @@ describe('AuthService', () => {
     id: '1234',
     cardId: mockCardId,
     pin: mockPin,
-    balance: 0,
+    account: 0,
     movements: [],
   };
 

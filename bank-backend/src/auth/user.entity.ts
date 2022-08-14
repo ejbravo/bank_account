@@ -13,7 +13,7 @@ export class User {
   pin: string;
 
   @Column()
-  balance: number;
+  account: number;
 
   @OneToMany((_type) => Movement, (movement) => movement.user, { eager: true })
   movements: Movement[];
