@@ -13,6 +13,7 @@ import { PageLayout } from '../layouts';
 import { Movement } from '../types';
 import useAuth from '../hooks/useAuth';
 import Operations from './Operations';
+import { getFormattedDate } from '../utils';
 
 const Movements = () => {
   const { token } = useAuth();
@@ -59,7 +60,7 @@ const Movements = () => {
                 const { id, date, amount, balance } = movement;
                 return (
                   <TableRow key={id}>
-                    <TableCell>{date}</TableCell>
+                    <TableCell>{getFormattedDate(date)}</TableCell>
                     <TableCell align='right'>{amount}</TableCell>
                     <TableCell align='right'>{balance}</TableCell>
                   </TableRow>
