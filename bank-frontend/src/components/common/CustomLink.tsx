@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Link as RouterLink } from 'react-router-dom';
-import { Grid, Link } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Grid } from '@mui/material';
 
 interface Props {
   to: string;
@@ -12,9 +12,7 @@ const CustomLink = ({ to, text }: Props) => {
   return (
     <Grid container justifyContent='flex-end'>
       <Grid item>
-        <RouterLink to={to}>
-          <Link variant='body2'>{text}</Link>
-        </RouterLink>
+        <Link to={to}>{text}</Link>
       </Grid>
     </Grid>
   );
