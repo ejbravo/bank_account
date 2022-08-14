@@ -5,9 +5,11 @@ import { AuthService } from '../auth.service';
 import { AuthDto } from '../dto/auth.dto';
 import { User } from '../user.entity';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 describe('AuthService', () => {
   let authService: AuthService;
+  let jwtService: JwtService;
   let repository: Repository<User>;
 
   beforeEach(async () => {
@@ -18,10 +20,17 @@ describe('AuthService', () => {
           provide: getRepositoryToken(User),
           useClass: Repository,
         },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
+    jwtService = module.get(JwtService);
     repository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
@@ -73,9 +82,11 @@ describe('AuthService', () => {
     const bcryptCompare = jest.fn().mockResolvedValue(true);
     (bcrypt.compare as jest.Mock) = bcryptCompare;
 
+    jest.spyOn(jwtService, 'sign').mockReturnValue('whatever');
+
     const result = await authService.getUser(mockAuthDto);
 
     expect(repository.findOneBy).toHaveBeenCalled();
-    expect(result).toBe('success');
+    expect(result).toEqual({ accessToken: 'whatever' });
   });
 });

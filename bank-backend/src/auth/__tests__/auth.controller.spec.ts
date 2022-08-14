@@ -1,3 +1,4 @@
+import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,6 +9,7 @@ import { User } from '../user.entity';
 describe('AuthController', () => {
   let controller: AuthController;
   let service: AuthService;
+  let jwtService: JwtService;
   let repository: Repository<User>;
 
   beforeEach(async () => {
@@ -18,12 +20,19 @@ describe('AuthController', () => {
           provide: getRepositoryToken(User),
           useClass: Repository,
         },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: jest.fn(),
+          },
+        },
       ],
       controllers: [AuthController],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
     service = module.get<AuthService>(AuthService);
+    jwtService = module.get(JwtService);
     repository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
