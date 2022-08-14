@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { MovementDto } from './dto/movement.dto';
 import { Movement } from './movement.entity';
 import { MovementsService } from './movements.service';
 
 @Controller('movements')
+@UseGuards(AuthGuard())
 export class MovementsController {
   constructor(private movementService: MovementsService) {}
 
