@@ -46,7 +46,7 @@ const SignUp = () => {
   };
 
   return (
-    <PageLayout>
+    <PageLayout width='xs'>
       <SmallBox>
         <LockerIcon />
         <CustomTitle text={text} />

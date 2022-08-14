@@ -1,15 +1,16 @@
-import React, { FormEvent } from 'react';
+import React, { createContext, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import { LockerIcon, CustomTitle, CustomForm, CustomLink } from './common';
 import { PageLayout, SmallBox } from '../layouts';
 import { AuthDto, Token } from '../types';
-import axios from 'axios';
+import useAuth from '../hooks/useAuth';
 
 const SignIn = () => {
   const text = 'Sign In';
 
-  const navigate = useNavigate();
+  const { singIn } = useAuth();
 
   // link literals
   const to = '/signup';
@@ -21,14 +22,14 @@ const SignIn = () => {
     try {
       const { data } = await axios.post(signInUrl, authDto);
       const { accessToken } = data as Token;
-      navigate('/movements');
+      singIn(accessToken);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <PageLayout>
+    <PageLayout width='xs'>
       <SmallBox>
         <LockerIcon />
         <CustomTitle text={text} />
