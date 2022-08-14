@@ -68,7 +68,7 @@ describe('Movement service test suite', () => {
 
       jest.spyOn(movementRepository, 'create').mockReturnValue(mockMovement);
       jest.spyOn(movementRepository, 'save').mockResolvedValue(mockMovement);
-      jest.spyOn(userRepository, 'save').mockResolvedValue(mockUser);
+      jest.spyOn(userRepository, 'update').mockResolvedValue({} as any);
 
       const result = await movementsService.income(mockMovementDto, mockUser);
       expect(result).toHaveProperty('amount');
@@ -88,7 +88,7 @@ describe('Movement service test suite', () => {
 
       jest.spyOn(movementRepository, 'create').mockReturnValue(mockMovement);
       jest.spyOn(movementRepository, 'save').mockResolvedValue(mockMovement);
-      jest.spyOn(userRepository, 'save').mockResolvedValue(mockUser);
+      jest.spyOn(userRepository, 'update').mockResolvedValue({} as any);
 
       const result = await movementsService.withdraw(mockMovementDto, mockUser);
       expect(result).toHaveProperty('amount');

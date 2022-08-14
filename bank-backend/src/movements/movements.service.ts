@@ -26,7 +26,7 @@ export class MovementsService {
 
   public async income(movementDto: MovementDto, user: User): Promise<Movement> {
     const { amount } = movementDto;
-    const { account, ...rest } = user;
+    const { id, account } = user;
     const balance = account + amount;
 
     const movement = this.movementRepository.create({
@@ -38,7 +38,7 @@ export class MovementsService {
     });
 
     await this.movementRepository.save(movement);
-    await this.userRepository.save({ ...rest, account: balance });
+    await this.userRepository.update({ id }, { account: balance });
 
     return movement;
   }
@@ -48,7 +48,7 @@ export class MovementsService {
     user: User,
   ): Promise<Movement> {
     const { amount } = movementDto;
-    const { account, ...rest } = user;
+    const { id, account } = user;
     const balance = account - amount;
 
     const movement = this.movementRepository.create({
@@ -60,7 +60,7 @@ export class MovementsService {
     });
 
     await this.movementRepository.save(movement);
-    await this.userRepository.save({ ...rest, account: balance });
+    await this.userRepository.update({ id }, { account: balance });
 
     return movement;
   }
