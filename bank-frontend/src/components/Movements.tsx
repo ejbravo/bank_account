@@ -10,7 +10,7 @@ import {
 import axios, { AxiosRequestConfig } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { PageLayout } from '../layouts';
-import { Movement } from '../types';
+import { Movement, MovementType } from '../types';
 import useAuth from '../hooks/useAuth';
 import Operations from './Operations';
 import { getFormattedDate } from '../utils';
@@ -59,20 +59,26 @@ const Movements = () => {
           <TableBody>
             {!!movements.length &&
               movements.map((movement) => {
-                const { id, date, amount, balance } = movement;
+                const { id, date, amount, balance, type } = movement;
+                const isIncome = type === MovementType.INCOME;
                 return (
                   <TableRow key={id}>
                     <TableCell>{getFormattedDate(date)}</TableCell>
-                    <TableCell align='right'>{`${amount}.00 €`}</TableCell>
+                    <TableCell
+                      align='right'
+                      sx={{
+                        color: `${isIncome ? 'success.main' : 'error.main'}`,
+                      }}
+                    >{`${isIncome ? '+' : '-'}${amount}.00€`}</TableCell>
                     <TableCell
                       align='right'
                       sx={{
                         fontSize: 'h6.fontSize',
                         fontWeight: 'bold',
-                        color: `${balance < 0 ? 'error.main' : 'info.main'}`,
+                        color: `${balance < 0 ? 'error.main' : 'dark.main'}`,
                       }}
                     >
-                      {`${balance}.00 €`}
+                      {`${balance}.00€`}
                     </TableCell>
                   </TableRow>
                 );
