@@ -9,11 +9,13 @@ import { MovementType } from './types';
 export class MovementsService {
   constructor(
     @InjectRepository(Movement)
-    private repository: Repository<Movement>,
+    private movementRepository: Repository<Movement>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   public async getMovements(user: User): Promise<Movement[]> {
-    const result = await this.repository.findBy({ user });
+    const result = await this.movementRepository.findBy({ user });
 
     if (!result) {
       throw new NotFoundException('None movement');
@@ -24,16 +26,19 @@ export class MovementsService {
 
   public async income(movementDto: MovementDto, user: User): Promise<Movement> {
     const { amount } = movementDto;
+    const { account, ...rest } = user;
+    const balance = account + amount;
 
-    const movement = this.repository.create({
+    const movement = this.movementRepository.create({
       amount,
-      balance: 0 + amount,
+      balance,
       date: Date.now().toString(),
       type: MovementType.INCOME,
       user,
     });
 
-    await this.repository.save(movement);
+    await this.movementRepository.save(movement);
+    await this.userRepository.save({ ...rest, account: balance });
 
     return movement;
   }
@@ -43,16 +48,19 @@ export class MovementsService {
     user: User,
   ): Promise<Movement> {
     const { amount } = movementDto;
+    const { account, ...rest } = user;
+    const balance = account - amount;
 
-    const movement = this.repository.create({
+    const movement = this.movementRepository.create({
       amount,
-      balance: 0 - amount,
+      balance,
       date: Date.now().toString(),
       type: MovementType.WITHDRAW,
       user,
     });
 
-    await this.repository.save(movement);
+    await this.movementRepository.save(movement);
+    await this.userRepository.save({ ...rest, account: balance });
 
     return movement;
   }

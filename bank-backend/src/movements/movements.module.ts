@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/auth/user.entity';
 import { AuthModule } from '../auth/auth.module';
 
 import { Movement } from './movement.entity';
@@ -9,7 +9,7 @@ import { MovementsController } from './movements.controller';
 import { MovementsService } from './movements.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Movement]), AuthModule],
+  imports: [TypeOrmModule.forFeature([Movement, User]), AuthModule],
   controllers: [MovementsController],
   providers: [MovementsService],
 })
