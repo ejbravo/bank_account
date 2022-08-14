@@ -1,6 +1,7 @@
 import { User } from '../auth/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { MovementType } from './types';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Movement {
@@ -20,5 +21,6 @@ export class Movement {
   balance: number;
 
   @ManyToOne((_type) => User, (user) => user.movements, { eager: false })
+  @Exclude({ toPlainOnly: true })
   user: User;
 }
