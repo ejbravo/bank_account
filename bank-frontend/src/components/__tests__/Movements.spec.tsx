@@ -5,7 +5,6 @@ import Movements from '../Movements';
 
 describe('Movements component test suite', () => {
   const name = 'My account';
-  const mockFunction = jest.fn();
 
   const setup = () => {
     render(<Movements />, { wrapper: BrowserRouter });

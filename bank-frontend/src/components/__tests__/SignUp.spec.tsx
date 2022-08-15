@@ -5,7 +5,6 @@ import SignUp from '../SignUp';
 
 describe('SignUn component test suite', () => {
   const name = 'Sign Up';
-  const mockFunction = jest.fn();
 
   const setup = () => {
     render(<SignUp />, { wrapper: BrowserRouter });
