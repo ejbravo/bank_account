@@ -48,7 +48,7 @@ const Movements = () => {
 
   return (
     <PageLayout width='md'>
-      <CustomTitle text={'Movements'} variant='h4' />
+      <CustomTitle text={'My account'} variant='h4' />
       <Operations onChange={(newMovement) => onUpdate(newMovement)} />
       <TableContainer component={Paper}>
         <Table sx={{ minWith: 650 }} aria-label='movements'>
