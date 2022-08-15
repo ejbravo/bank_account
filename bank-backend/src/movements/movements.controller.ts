@@ -16,8 +16,9 @@ export class MovementsController {
 
   @Get('list')
   public async list(@GetUser() user: User): Promise<Movement[]> {
-    const trimedCardId = trimCardId(user.cardId);
-    this.logger.verbose(`User "${trimedCardId}" retrieving all movements`);
+    const trimmedCardId = trimCardId(user.cardId);
+    this.logger.verbose(`User "${trimmedCardId}" retrieving all movements`);
+
     return await this.movementService.getMovements(user);
   }
 
@@ -27,8 +28,9 @@ export class MovementsController {
     @GetUser() user: User,
   ): Promise<Movement> {
     const { amount } = movementDto;
-    const trimedCardId = trimCardId(user.cardId);
-    this.logger.verbose(`User "${trimedCardId}" INCOME of ${amount}.00€`);
+    const trimmedCardId = trimCardId(user.cardId);
+    this.logger.verbose(`User "${trimmedCardId}" INCOME of ${amount}.00€`);
+
     return this.movementService.income(movementDto, user);
   }
 
@@ -38,8 +40,9 @@ export class MovementsController {
     @GetUser() user: User,
   ): Promise<Movement> {
     const { amount } = movementDto;
-    const trimedCardId = trimCardId(user.cardId);
-    this.logger.verbose(`User "${trimedCardId}" WITHDRAW of ${amount}.00€`);
+    const trimmedCardId = trimCardId(user.cardId);
+    this.logger.verbose(`User "${trimmedCardId}" WITHDRAW of ${amount}.00€`);
+
     return this.movementService.withdraw(movementDto, user);
   }
 }
