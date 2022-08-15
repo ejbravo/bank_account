@@ -53,7 +53,7 @@ describe('Movement service test suite', () => {
   });
 
   describe('Get all movements', () => {
-    test('Should retrieve the complete list of movements', async () => {
+    it('Should retrieve the complete list of movements', async () => {
       jest.spyOn(movementRepository, 'findBy').mockResolvedValue([]);
       const result = await movementsService.getMovements(mockUser);
       expect(result).toBeTruthy();
@@ -61,7 +61,7 @@ describe('Movement service test suite', () => {
   });
 
   describe('Income tests', () => {
-    test('Retrieves the created movement', async () => {
+    it('Retrieves the created movement', async () => {
       const amount = 100;
       const mockMovementDto: MovementDto = { amount };
       const mockMovement = getMockMovement(amount, MovementType.INCOME);
@@ -81,7 +81,7 @@ describe('Movement service test suite', () => {
   });
 
   describe('Withdraw tests', () => {
-    test('Retrieves the created movement', async () => {
+    it('Retrieves the created movement', async () => {
       const amount = 100;
       const mockMovementDto: MovementDto = { amount };
       const mockMovement = getMockMovement(amount, MovementType.WITHDRAW);

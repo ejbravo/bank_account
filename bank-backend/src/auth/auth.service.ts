@@ -32,13 +32,13 @@ export class AuthService {
     const salt = await bcrypt.genSalt();
     const hashedPin = await bcrypt.hash(pin, salt);
 
-    const user = this.repository.create({
-      cardId,
-      pin: hashedPin,
-      account: 0,
-    });
-
     try {
+      const user = this.repository.create({
+        cardId,
+        pin: hashedPin,
+        account: 0,
+      });
+
       await this.repository.save(user);
 
       this.logger.verbose(`User "${trimmedCardId}" created`);

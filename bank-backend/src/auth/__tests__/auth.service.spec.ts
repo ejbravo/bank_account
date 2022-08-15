@@ -6,8 +6,13 @@ import { AuthDto } from '../dto/auth.dto';
 import { User } from '../user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import {
+  InternalServerErrorException,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 
-describe('AuthService', () => {
+describe('AuthService suite test', () => {
   const mockCardId = '1234567812345678';
   const mockPin = '1234';
 
@@ -49,37 +54,99 @@ describe('AuthService', () => {
     expect(authService).toBeDefined();
   });
 
-  it('Should create an user if everything is ok', async () => {
-    const mockAuthDto: AuthDto = {
-      cardId: mockCardId,
-      pin: mockPin,
-    };
+  describe('About method "createUser"', () => {
+    it('Should create an user in db if credentials are ok', async () => {
+      const mockAuthDto: AuthDto = {
+        cardId: mockCardId,
+        pin: mockPin,
+      };
 
-    jest.spyOn(repository, 'create').mockReturnValue(mockUser);
-    jest.spyOn(repository, 'save').mockResolvedValue(mockUser);
+      jest.spyOn(repository, 'create').mockReturnValue(mockUser);
+      jest.spyOn(repository, 'save').mockResolvedValue(mockUser);
 
-    await authService.createUser(mockAuthDto);
+      await authService.createUser(mockAuthDto);
 
-    expect(repository.create).toHaveBeenCalled();
-    expect(repository.save).toBeCalledTimes(1);
+      expect(repository.create).toHaveBeenCalled();
+      expect(repository.save).toBeCalledTimes(1);
+    });
+
+    it('Should throw an error if credentials are not ok', async () => {
+      const mockAuthDto: AuthDto = {
+        cardId: 'wrongCardId',
+        pin: mockPin,
+      };
+
+      jest.spyOn(repository, 'create').mockReturnValue(mockUser);
+      jest
+        .spyOn(repository, 'save')
+        .mockRejectedValue(new InternalServerErrorException());
+
+      try {
+        await authService.createUser(mockAuthDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(InternalServerErrorException);
+        expect(error.message).toBe('Internal Server Error');
+      }
+    });
   });
 
-  it('Should get the user if credentials are ok', async () => {
-    const mockAuthDto: AuthDto = {
-      cardId: mockCardId,
-      pin: mockPin,
-    };
+  describe('About method "getUser"', () => {
+    it('Should get the user from the db if credentials are ok', async () => {
+      const mockAuthDto: AuthDto = {
+        cardId: mockCardId,
+        pin: mockPin,
+      };
 
-    jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockUser);
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockUser);
 
-    const bcryptCompare = jest.fn().mockResolvedValue(true);
-    (bcrypt.compare as jest.Mock) = bcryptCompare;
+      const bcryptCompare = jest.fn().mockResolvedValue(true);
+      (bcrypt.compare as jest.Mock) = bcryptCompare;
 
-    jest.spyOn(jwtService, 'sign').mockReturnValue('whatever');
+      jest.spyOn(jwtService, 'sign').mockReturnValue('whatever');
 
-    const result = await authService.getUser(mockAuthDto);
+      const result = await authService.getUser(mockAuthDto);
 
-    expect(repository.findOneBy).toHaveBeenCalled();
-    expect(result).toEqual({ accessToken: 'whatever' });
+      expect(repository.findOneBy).toHaveBeenCalled();
+      expect(result).toEqual({ accessToken: 'whatever' });
+    });
+
+    it('Should throw Unauthorized exception if user is not found', async () => {
+      const mockAuthDto: AuthDto = {
+        cardId: 'wrongCardId',
+        pin: mockPin,
+      };
+
+      jest
+        .spyOn(repository, 'findOneBy')
+        .mockRejectedValue(new UnauthorizedException());
+
+      try {
+        const result = await authService.getUser(mockAuthDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(UnauthorizedException);
+        expect(error.message).toBe('Unauthorized');
+      }
+    });
+
+    it('Should throw Unauthorized exception if PIN is wrong', async () => {
+      const mockAuthDto: AuthDto = {
+        cardId: mockCardId,
+        pin: 'wrongPin',
+      };
+
+      jest.spyOn(repository, 'findOneBy').mockResolvedValue(mockUser);
+
+      const bcryptCompare = jest
+        .fn()
+        .mockResolvedValue(new UnauthorizedException());
+      (bcrypt.compare as jest.Mock) = bcryptCompare;
+
+      try {
+        const result = await authService.getUser(mockAuthDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(UnauthorizedException);
+        expect(error.message).toBe('Unauthorized');
+      }
+    });
   });
 });
