@@ -18,6 +18,9 @@ Each part contains its own README.md with instructions to install and run the ap
 
 > In order to test it, the backend needs a connection with the **postgresql** database.
 
+## Example
+<img width="945" alt="Screen Shot 2022-08-15 at 13 57 52 PM" src="https://user-images.githubusercontent.com/18525658/184649984-037f8b6c-f749-4291-89c3-ebe5e6302227.png">
+
 ## BACKEND
 
 ### Installation
@@ -81,3 +84,16 @@ $ npm test
 - **e2e** tests should have been included in this project. Using _Cypress_ or _supertest_. But I had to decide to leave them to the end and I had no more time to deal with them.
 - About backend. The test coverage is enough for this exercise, in my opinion, but it is true that there are some branches that unit tests do not cover like some "error" cases.
 - About frontend. Unit tests are not enough. I spent more time with the backend part.
+
+## User guide
+
+### Authentication (Sign Up and Sign In)
+- Sign up is required
+- CardId must contain 16 digits (like a credit card)
+- PIN must contain 4 digits
+- Authentication formulary is validated by the backend (API)
+
+### Movements
+- Only integers are allowed in amount form
+- Two options: INCOME and WITHDRAW
+- The results are displayed as expected.
