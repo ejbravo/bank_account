@@ -23,6 +23,21 @@ Each part contains its own README.md with instructions to install and run the ap
 
 ## BACKEND
 
+### Setup (Database)
+For database setup use Docker to run Postgres.
+- Install [Docker](https://docs.docker.com/) 
+- [pgAdmin](https://www.pgadmin.org/) is helpful for managing Postgres database
+- Setup postgres with docker (via terminal or via desktop interface)
+```
+# via terminal
+$ docker run --name postgres-bank -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+
+# check
+$ docker container ls
+```
+- Create a server and a database using pgAdmin.
+- Fill in the file [.env.stage.dev](https://github.com/ejbravo/bank_account/blob/main/bank-backend/.env.stage.dev) with the database variables.
+
 ### Installation
 
 ```
